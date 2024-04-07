@@ -1,12 +1,12 @@
 from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.validators import UnicodeUsernameValidator
 from django.db import models
-
+from phonenumber_field.modelfields import PhoneNumberField
 
 class User(AbstractUser):
     """Модель пользователя"""
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ('username', 'password')
+    REQUIRED_FIELDS = ('first_name','last_name','phone_number', 'password')
 
     email = models.EmailField(
         'Электронная почта',
@@ -40,6 +40,12 @@ class User(AbstractUser):
         max_length=100,
         blank=False,
         help_text='Введите вашу фамилию',
+    )
+    phone_number = PhoneNumberField(
+        verbose_name='Телефон',
+        unique=True,
+        null=True,
+        blank=False,
     )
 
     class Meta:
